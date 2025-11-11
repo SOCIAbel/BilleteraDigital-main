@@ -18,6 +18,9 @@ public class CategoryController {
 
     private final CategoryService categoryService;
 
+    // ==========================
+    // CATEGORÍAS
+    // ==========================
     @PostMapping
     public ResponseEntity<CategoryResponseDTO> createCategory(@RequestBody CategoryRequestDTO request) {
         return ResponseEntity.ok(categoryService.createCategory(request));
@@ -33,7 +36,22 @@ public class CategoryController {
         return ResponseEntity.ok(categoryService.getCategoryById(id));
     }
 
-    // Subcategorías
+    @PutMapping("/{id}")
+    public ResponseEntity<CategoryResponseDTO> updateCategory(
+            @PathVariable Long id,
+            @RequestBody CategoryRequestDTO request) {
+        return ResponseEntity.ok(categoryService.updateCategory(id, request));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
+        categoryService.deleteCategory(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    // ==========================
+    // SUBCATEGORÍAS
+    // ==========================
     @PostMapping("/{categoryId}/subcategories")
     public ResponseEntity<SubcategoryResponseDTO> createSubcategory(
             @PathVariable Long categoryId,
@@ -50,5 +68,21 @@ public class CategoryController {
     public ResponseEntity<SubcategoryResponseDTO> getSubcategoryById(
             @PathVariable Long categoryId, @PathVariable Long subId) {
         return ResponseEntity.ok(categoryService.getSubcategoryById(categoryId, subId));
+    }
+
+    @PutMapping("/{categoryId}/subcategories/{subId}")
+    public ResponseEntity<SubcategoryResponseDTO> updateSubcategory(
+            @PathVariable Long categoryId,
+            @PathVariable Long subId,
+            @RequestBody SubcategoryRequestDTO request) {
+        return ResponseEntity.ok(categoryService.updateSubcategory(categoryId, subId, request));
+    }
+
+    @DeleteMapping("/{categoryId}/subcategories/{subId}")
+    public ResponseEntity<Void> deleteSubcategory(
+            @PathVariable Long categoryId,
+            @PathVariable Long subId) {
+        categoryService.deleteSubcategory(categoryId, subId);
+        return ResponseEntity.noContent().build();
     }
 }

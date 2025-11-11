@@ -104,6 +104,66 @@ public class CategoryService {
                 .build();
     }
 
+    // =========================
+    // NUEVOS MÉTODOS CRUD
+    // =========================
+
+    // Actualizar Categoría
+    @Transactional
+    public CategoryResponseDTO updateCategory(Long id, CategoryRequestDTO request) {
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Categoría no encontrada"));
+
+        category.setName(request.getName());
+        category.setIcon(request.getIcon());
+        category.setColor(request.getColor());
+        // Si quieres permitir actualizar userId:
+        // category.setUserId(request.getUserId());
+
+        Category updated = categoryRepository.save(category);
+        return mapToResponse(updated);
+    }
+
+    // Eliminar Categoría
+    @Transactional
+    public void deleteCategory(Long id) {
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Categoría no encontrada"));
+        // Primero eliminamos las subcategorías asociadas
+        subcategoryRepository.deleteAllByCategoryId(category.getId());
+        categoryRepository.delete(category);
+    }
+
+    // Actualizar Subcategoría
+    @Transactional
+    public SubcategoryResponseDTO updateSubcategory(Long categoryId, Long subId, SubcategoryRequestDTO request) {
+        Subcategory sub = subcategoryRepository.findById(subId)
+                .filter(s -> s.getCategory().getId().equals(categoryId))
+                .orElseThrow(() -> new ResourceNotFoundException("Subcategoría no encontrada"));
+
+        sub.setName(request.getName());
+
+        Subcategory updated = subcategoryRepository.save(sub);
+        return SubcategoryResponseDTO.builder()
+                .id(updated.getId())
+                .categoryId(categoryId)
+                .name(updated.getName())
+                .createdAt(updated.getCreatedAt())
+                .build();
+    }
+
+    // Eliminar Subcategoría
+    @Transactional
+    public void deleteSubcategory(Long categoryId, Long subId) {
+        Subcategory sub = subcategoryRepository.findById(subId)
+                .filter(s -> s.getCategory().getId().equals(categoryId))
+                .orElseThrow(() -> new ResourceNotFoundException("Subcategoría no encontrada"));
+        subcategoryRepository.delete(sub);
+    }
+
+    // =========================
+    // MÉTODOS AUXILIARES
+    // =========================
     private CategoryResponseDTO mapToResponse(Category c) {
         return CategoryResponseDTO.builder()
                 .id(c.getId())
@@ -115,4 +175,3 @@ public class CategoryService {
                 .build();
     }
 }
-
