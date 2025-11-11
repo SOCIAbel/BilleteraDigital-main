@@ -12,6 +12,7 @@ spring:
           enabled: true
           lower-case-service-id: true
 
+      # Esto ayuda pero no siempre es suficiente con filtros
       globalcors:
         corsConfigurations:
           '[/**]':
