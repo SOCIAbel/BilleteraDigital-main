@@ -12,26 +12,12 @@ spring:
           enabled: true
           lower-case-service-id: true
 
-      # Esto ayuda pero no siempre es suficiente con filtros
-      globalcors:
-        corsConfigurations:
-          '[/**]':
-            allowedOrigins:
-              - "http://localhost:4200"
-            allowedMethods:
-              - GET
-              - POST
-              - PUT
-              - DELETE
-              - OPTIONS
-            allowedHeaders: "*"
-            allowCredentials: true
-
       routes:
         - id: ms-categories-service
           uri: lb://ms-categories-service
           predicates:
             - Path=/categories/**
+            - Method=GET,POST,PUT,DELETE
           filters:
             - name: AuthFilter
 
@@ -57,10 +43,25 @@ spring:
             - name: AuthFilter
 
         - id: ms-auth-service
-          uri: lb://ms-auth-service
+          uri: lb://ms-auth-service 
           predicates:
             - Path=/auth/**
           filters: []
+
+
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - "http://localhost:4200"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders: "*"
+            allowCredentials: true
 
 eureka:
   client:

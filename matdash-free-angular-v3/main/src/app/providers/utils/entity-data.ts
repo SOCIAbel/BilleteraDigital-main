@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 
 
 export class EntityDataService<T> {
+
   constructor(
     protected httpClient: HttpClient,
     protected endPoint: string,

@@ -1,3 +1,3 @@
-export class TokenModels {
+export class TokenModels{
   token?: string;
 }
