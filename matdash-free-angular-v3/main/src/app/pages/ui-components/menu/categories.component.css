@@ -1,0 +1,31 @@
+.container {
+  padding: 20px;
+}
+
+h2 {
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+.table {
+  width: 100%;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.color-box {
+  display: inline-block;
+  width: 30px;
+  height: 18px;
+  border-radius: 4px;
+  margin-right: 8px;
+  border: 1px solid #ccc;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+

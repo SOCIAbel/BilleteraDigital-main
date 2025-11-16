@@ -17,7 +17,7 @@ spring:
           uri: lb://ms-categories-service
           predicates:
             - Path=/categories/**
-            - Method=GET,POST,PUT,DELETE
+           
           filters:
             - name: AuthFilter
 
