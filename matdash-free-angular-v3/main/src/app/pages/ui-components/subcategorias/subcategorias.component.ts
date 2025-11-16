@@ -9,8 +9,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 
-import { CategoryService } from 'src/app/providers/services/category/category.service';
+
 import { Subcategory } from 'src/app/providers/models/subcategory.model';
+import { CategoryService } from 'src/app/providers/services/category/category.service';
 
 @Component({
   selector: 'app-subcategorias',

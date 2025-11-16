@@ -1,13 +1,4 @@
 import { Routes } from '@angular/router';
-
-// ui
-import { AppBadgeComponent } from './badge/badge.component';
-import { AppChipsComponent } from './chips/chips.component';
-import { AppListsComponent } from './lists/lists.component';
-
-import { AppTooltipsComponent } from './tooltips/tooltips.component';
-import { AppFormsComponent } from './forms/forms.component';
-import { AppTablesComponent } from './tables/tables.component';
 import { AppMenuComponent } from './menu/menu.component';
 
 export const UiComponentsRoutes: Routes = [
@@ -15,18 +6,47 @@ export const UiComponentsRoutes: Routes = [
     path: '',
     children: [
       {
-        path: 'badge',
-        component: AppBadgeComponent,
+        path: '',
+        redirectTo: 'wallet',
+        pathMatch: 'full',
       },
+
+      // 🟢 WALLET
       {
-        path: 'chips',
-        component: AppChipsComponent,
+        path: 'wallet',
+        loadComponent: () =>
+          import('src/app/pages/ui-components/tables/tables.component').then(
+            (m) => m.AppTablesComponent
+          ),
       },
+
+      // 🟢 TRANSACTIONS (nombre correcto)
       {
-        path: 'lists',
-        component: AppListsComponent,
+        path: 'transactions',
+        loadComponent: () =>
+          import('./transactions/transactions.component').then(
+            (m) => m.TransactionsComponent
+          ),
       },
+
+      // 🟢 EVENTS
       {
+        path: 'events',
+        loadComponent: () =>
+          import('./events/events.component').then(
+            (m) => m.EventsComponent
+          ),
+      },
+
+      // 🟢 GOALS
+      {
+        path: 'goals',
+        loadComponent: () =>
+          import('./goals/goals.component').then(
+            (m) => m.GoalsComponent
+          ),
+      },
+        {
   path: 'menu',
   component :AppMenuComponent
   
@@ -39,27 +59,6 @@ export const UiComponentsRoutes: Routes = [
       (m) => m.AppSubcategoriasComponent
     ),
 },
-
-      {
-        path: 'tooltips',
-        component: AppTooltipsComponent,
-      },
-      {
-        path: 'forms',
-        component: AppFormsComponent,
-      },
-      {
-        path: 'tables',
-        component: AppTablesComponent,
-      },
-      {
-        path: 'transacciones',
-        loadComponent: () =>
-          import('../ui-components/transactions/transactions.component').then(
-            (m) => m.TransactionsComponent
-          ),
-      },
-
     ],
   },
 ];

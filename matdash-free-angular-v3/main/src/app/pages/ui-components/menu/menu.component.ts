@@ -13,8 +13,9 @@ import { jwtDecode } from 'jwt-decode';
 
 import { Category } from 'src/app/providers/models/category.model';
 import { AuthService } from 'src/app/providers/services/auth/auth.service';
-import { CategoryService } from 'src/app/providers/services/category/category.service';
+
 import { Router, RouterOutlet } from '@angular/router';  // ⭐ AÑADIDO AQUI
+import { CategoryService } from 'src/app/providers/services/category/category.service';
 
 @Component({
   selector: 'app-categories',
