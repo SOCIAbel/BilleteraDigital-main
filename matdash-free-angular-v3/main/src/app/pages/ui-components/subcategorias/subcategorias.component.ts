@@ -13,10 +13,10 @@ import { CategoryService } from 'src/app/providers/services/category/category.se
 import { Subcategory } from 'src/app/providers/models/subcategory.model';
 
 @Component({
-  selector: 'app-subcategories',
+  selector: 'app-subcategorias',
   standalone: true,
-  templateUrl: './lists.component.html',
-  styleUrls: ['./lists.component.css'],
+  templateUrl: './subcategorias.component.html',
+  styleUrls: ['./subcategorias.component.css'],
   imports: [
     CommonModule,
     FormsModule,
@@ -27,10 +27,9 @@ import { Subcategory } from 'src/app/providers/models/subcategory.model';
     MatButtonModule
   ]
 })
-export class AppListsComponent implements OnInit {
+export class AppSubcategoriasComponent implements OnInit {
 
   categoryId!: number;
-  categoryName: string = ''; // opcional si quieres mostrar el nombre arriba
   dialogRef!: MatDialogRef<any>;
 
   displayedColumns = ['id', 'name', 'createdAt', 'actions'];
@@ -52,41 +51,27 @@ export class AppListsComponent implements OnInit {
     });
   }
 
-  /* ================================
-     Cargar subcategorías
-  ================================== */
   loadSubcategories() {
     this.categoryService.getSubcategories$(this.categoryId).subscribe((res) => {
       this.subcategories = res;
     });
   }
 
-  /* ================================
-     Crear subcategoría
-  ================================== */
   openCreateDialog(template: any) {
     this.form = { name: '' };
     this.dialogRef = this.dialog.open(template);
   }
 
   saveSubcategory() {
-    this.categoryService.createSubcategory$(this.categoryId, this.form)
-      .subscribe(() => {
-        this.dialogRef.close();
-        this.loadSubcategories();
-      });
+    this.categoryService.createSubcategory$(this.categoryId, this.form).subscribe(() => {
+      this.dialogRef.close();
+      this.loadSubcategories();
+    });
   }
 
-  /* ================================
-     Editar subcategoría
-  ================================== */
   openEditDialog(template: any, sub: Subcategory) {
     this.form = { name: sub.name };
     this.dialogRef = this.dialog.open(template);
-
-    this.dialogRef.afterClosed().subscribe(() => {
-      this.form = { name: '' };
-    });
 
     this.dialogRef.beforeClosed().subscribe(() => {
       if (!this.form.name) return;
@@ -95,18 +80,12 @@ export class AppListsComponent implements OnInit {
     });
   }
 
-  /* ================================
-     Eliminar subcategoría
-  ================================== */
   deleteSubcategory(id: number) {
     this.categoryService.deleteSubcategory$(this.categoryId, id)
       .subscribe(() => this.loadSubcategories());
   }
 
-  /* ================================
-     Volver a Categorías
-  ================================== */
   goBack() {
-    this.router.navigate(['/menu']);
+    this.router.navigate(['/ui-components/menu']);
   }
 }

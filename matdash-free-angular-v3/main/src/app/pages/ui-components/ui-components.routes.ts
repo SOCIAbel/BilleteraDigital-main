@@ -4,10 +4,11 @@ import { Routes } from '@angular/router';
 import { AppBadgeComponent } from './badge/badge.component';
 import { AppChipsComponent } from './chips/chips.component';
 import { AppListsComponent } from './lists/lists.component';
-import { AppMenuComponent } from './menu/menu.component';
+
 import { AppTooltipsComponent } from './tooltips/tooltips.component';
 import { AppFormsComponent } from './forms/forms.component';
 import { AppTablesComponent } from './tables/tables.component';
+import { AppMenuComponent } from './menu/menu.component';
 
 export const UiComponentsRoutes: Routes = [
   {
@@ -26,9 +27,19 @@ export const UiComponentsRoutes: Routes = [
         component: AppListsComponent,
       },
       {
-        path: 'menu',
-        component: AppMenuComponent,
-      },
+  path: 'menu',
+  component :AppMenuComponent
+  
+    
+},
+{
+  path: 'subcategorias',
+  loadComponent: () =>
+    import('./subcategorias/subcategorias.component').then(
+      (m) => m.AppSubcategoriasComponent
+    ),
+},
+
       {
         path: 'tooltips',
         component: AppTooltipsComponent,

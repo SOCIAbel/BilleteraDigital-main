@@ -14,6 +14,7 @@ import { jwtDecode } from 'jwt-decode';
 import { Category } from 'src/app/providers/models/category.model';
 import { AuthService } from 'src/app/providers/services/auth/auth.service';
 import { CategoryService } from 'src/app/providers/services/category/category.service';
+import { Router, RouterOutlet } from '@angular/router';  // ⭐ AÑADIDO AQUI
 
 @Component({
   selector: 'app-categories',
@@ -23,6 +24,7 @@ import { CategoryService } from 'src/app/providers/services/category/category.se
   imports: [
     CommonModule,
     FormsModule,
+    RouterOutlet,
 
     // MATERIAL
     MatTableModule,
@@ -40,6 +42,8 @@ export class AppMenuComponent implements OnInit {
   categories: Category[] = [];
   userId!: number;
 
+  editingId: number | null = null;
+
   form = {
     name: '',
     icon: '',
@@ -51,7 +55,8 @@ export class AppMenuComponent implements OnInit {
   constructor(
     private categoryService: CategoryService,
     private authService: AuthService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private router: Router                           // ⭐ AÑADIDO AQUI
   ) {}
 
   ngOnInit(): void {
@@ -73,23 +78,49 @@ export class AppMenuComponent implements OnInit {
     });
   }
 
+  // 🟣 Abrir para CREAR
   openDialog(): void {
+    this.editingId = null;
     this.form = { name: '', icon: '', color: '#000000' };
     this.dialogRef = this.dialog.open(this.dialogTemplate);
   }
 
+  // 🟡 Abrir para EDITAR
+  openEditDialog(category: Category): void {
+    this.editingId = category.id;
+
+    this.form = {
+      name: category.name,
+      icon: category.icon,
+      color: category.color
+    };
+
+    this.dialogRef = this.dialog.open(this.dialogTemplate);
+  }
+
+  // 🟢 Guardar (CREAR o EDITAR)
   saveCategory(): void {
     const payload = {
       ...this.form,
       userId: this.userId
     };
 
-    this.categoryService.createCategory$(payload).subscribe({
-      next: () => {
-        this.loadCategories();
-        this.dialogRef.close();
-      }
-    });
+    if (this.editingId === null) {
+      this.categoryService.createCategory$(payload).subscribe({
+        next: () => {
+          this.loadCategories();
+          this.dialogRef.close();
+        }
+      });
+
+    } else {
+      this.categoryService.updateCategory$(this.editingId, payload).subscribe({
+        next: () => {
+          this.loadCategories();
+          this.dialogRef.close();
+        }
+      });
+    }
   }
 
   deleteCategory(id: number): void {
@@ -99,4 +130,11 @@ export class AppMenuComponent implements OnInit {
       next: () => this.loadCategories()
     });
   }
+
+  // ⭐⭐⭐ IR A SUBCATEGORÍAS ⭐⭐⭐
+ irASubcategorias(id: number) {
+  this.router.navigate(['/ui-components/subcategorias'], {
+    queryParams: { categoryId: id }
+  });
+}
 }

@@ -4,9 +4,8 @@
     <h2>Subcategorías</h2>
 
     <div class="btns">
-      <button mat-raised-button color="primary"
-              (click)="openCreateDialog(dialogTemplate)">
-        + Agregar Subcategoría
+      <button mat-raised-button color="primary" (click)="openCreateDialog(dialogTemplate)">
+        + Agregar
       </button>
 
       <button mat-raised-button color="accent" (click)="goBack()">
@@ -15,7 +14,7 @@
     </div>
   </div>
 
-  <!-- DIALOG TEMPLATE -->
+  <!-- DIALOG -->
   <ng-template #dialogTemplate>
     <h2 mat-dialog-title>Subcategoría</h2>
 
@@ -28,8 +27,11 @@
 
     <div mat-dialog-actions align="end">
       <button mat-button (click)="dialogRef.close()">Cancelar</button>
-      <button mat-raised-button color="primary" (click)="saveSubcategory()">Guardar</button>
+      <button mat-raised-button color="primary" (click)="saveSubcategory()">
+        Guardar
+      </button>
     </div>
+
   </ng-template>
 
   <!-- TABLA -->
@@ -60,6 +62,7 @@
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
   </table>
 
 </div>
